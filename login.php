@@ -107,7 +107,7 @@ if (!empty($form_errors_html)) {
     </div>
 </form>
 <p>Don't have an account? <a href="register.php">Register here</a>.</p>
-<p><a href="forgot_password.php">Forgot Password?</a></p> 
+<p><a href="register.php">Forgot Password?</a></p> 
 
 <?php
 require_once 'footer.php';
