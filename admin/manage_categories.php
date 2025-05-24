@@ -56,20 +56,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (empty($errors)) {
             if ($category_id_form > 0) {
-                $sql = "UPDATE categories SET CategoryName = ?, Description = ?, ParentCategoryID = ? WHERE CategoryID = ?";
+                $sql = "UPDATE categories SET CategoryName = ?, ParentCategoryID = ? WHERE CategoryID = ?";
                 $stmt = mysqli_prepare($conn, $sql);
-                mysqli_stmt_bind_param($stmt, "ssii", $category_name, $description, $parent_category_id, $category_id_form);
+                mysqli_stmt_bind_param($stmt, "sii", $category_name, $parent_category_id, $category_id_form);
                 $action_word = 'updated';
             } else {
-                $sql = "INSERT INTO categories (CategoryName, Description, ParentCategoryID) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO categories (CategoryName, ParentCategoryID) VALUES (?, ?)";
                 $stmt = mysqli_prepare($conn, $sql);
-                mysqli_stmt_bind_param($stmt, "ssi", $category_name, $description, $parent_category_id);
+                mysqli_stmt_bind_param($stmt, "si", $category_name, $parent_category_id);
                 $action_word = 'added';
             }
 
             if ($stmt && mysqli_stmt_execute($stmt)) {
                 $_SESSION['admin_message'] = "<div class='message-success'>Category '{$category_name}' {$action_word} successfully!</div>";
-                redirect(BASE_URL . 'admin/manage_categories.php');
+                redirect('admin/manage_categories.php');
             } else {
                 $errors[] = "Failed to {$action_word} category: " . ($stmt ? mysqli_stmt_error($stmt) : mysqli_error($conn));
             }
@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_msg_html .= "</ul>";
             $_SESSION['admin_message'] = "<div class='message-error'>{$error_msg_html}</div>";
         }
-        redirect(BASE_URL . 'admin/manage_categories.php');
+        redirect('admin/manage_categories.php');
     }
 }
 
@@ -140,7 +140,7 @@ if ($action === 'edit' && $edit_id > 0) {
         mysqli_stmt_close($stmt_edit);
         if (!$category_to_edit) {
             $_SESSION['admin_message'] = "<div class='message-error'>Category not found for editing.</div>";
-            redirect(BASE_URL . 'admin/manage_categories.php');
+            redirect('admin/manage_categories.php');
         }
     }
 }
