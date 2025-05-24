@@ -107,8 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                        WHERE ProductID = ?";
         $stmt_update = mysqli_prepare($conn, $sql_update);
         if ($stmt_update) {
-            mysqli_stmt_bind_param($stmt_update, "sssddiisii", 
-                $product_name, $description, $sku, $mrp, $selling_price, 
+            mysqli_stmt_bind_param($stmt_update, "ssddiisii", 
+                $product_name, $description, $mrp, $selling_price, 
                 $stock_quantity, $category_id, $new_uploaded_image_name, $is_active,
                 $product_id_to_edit
             );
