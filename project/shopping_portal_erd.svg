@@ -1,0 +1,172 @@
+<svg viewBox="0 0 1400 1000" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1400" height="1000" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="700" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2c3e50">
+    Online Shopping Portal - ER Diagram
+  </text>
+  
+  <!-- Users Entity -->
+  <g id="users">
+    <rect x="50" y="80" width="200" height="180" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="5"/>
+    <text x="150" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1976d2">USERS</text>
+    <line x1="60" y1="110" x2="240" y2="110" stroke="#1976d2" stroke-width="1"/>
+    <text x="60" y="125" font-family="Arial, sans-serif" font-size="12" fill="#333">UserId (PK)</text>
+    <text x="60" y="140" font-family="Arial, sans-serif" font-size="12" fill="#333">FirstName</text>
+    <text x="60" y="155" font-family="Arial, sans-serif" font-size="12" fill="#333">LastName</text>
+    <text x="60" y="170" font-family="Arial, sans-serif" font-size="12" fill="#333">Email</text>
+    <text x="60" y="185" font-family="Arial, sans-serif" font-size="12" fill="#333">PasswordHash</text>
+    <text x="60" y="200" font-family="Arial, sans-serif" font-size="12" fill="#333">ContactNumber</text>
+    <text x="60" y="215" font-family="Arial, sans-serif" font-size="12" fill="#333">RegistrationDate</text>
+    <text x="60" y="240" font-family="Arial, sans-serif" font-size="12" fill="#333">Addresses</text>
+    <text x="60" y="255" font-family="Arial, sans-serif" font-size="12" fill="#333">Orders</text>
+  </g>
+  
+  <!-- Addresses Entity -->
+  <g id="addresses">
+    <rect x="50" y="320" width="200" height="160" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+    <text x="150" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#f57c00">ADDRESSES</text>
+    <line x1="60" y1="350" x2="240" y2="350" stroke="#f57c00" stroke-width="1"/>
+    <text x="60" y="365" font-family="Arial, sans-serif" font-size="12" fill="#333">AddressId (PK)</text>
+    <text x="60" y="380" font-family="Arial, sans-serif" font-size="12" fill="#333">Users_UserId (FK)</text>
+    <text x="60" y="395" font-family="Arial, sans-serif" font-size="12" fill="#333">Street</text>
+    <text x="60" y="410" font-family="Arial, sans-serif" font-size="12" fill="#333">City</text>
+    <text x="60" y="425" font-family="Arial, sans-serif" font-size="12" fill="#333">State</text>
+    <text x="60" y="440" font-family="Arial, sans-serif" font-size="12" fill="#333">ZipCode</text>
+    <text x="60" y="455" font-family="Arial, sans-serif" font-size="12" fill="#333">Country</text>
+    <text x="60" y="470" font-family="Arial, sans-serif" font-size="12" fill="#333">IsDefaultShipping</text>
+  </g>
+  
+  <!-- Categories Entity -->
+  <g id="categories">
+    <rect x="350" y="80" width="200" height="120" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+    <text x="450" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#7b1fa2">CATEGORIES</text>
+    <line x1="360" y1="110" x2="540" y2="110" stroke="#7b1fa2" stroke-width="1"/>
+    <text x="360" y="125" font-family="Arial, sans-serif" font-size="12" fill="#333">CategoryID (PK)</text>
+    <text x="360" y="140" font-family="Arial, sans-serif" font-size="12" fill="#333">CategoryName</text>
+    <text x="360" y="155" font-family="Arial, sans-serif" font-size="12" fill="#333">ParentCategoryID</text>
+    <text x="360" y="180" font-family="Arial, sans-serif" font-size="12" fill="#333">Products</text>
+  </g>
+  
+  <!-- Administrators Entity -->
+  <g id="administrators">
+    <rect x="650" y="80" width="200" height="140" fill="#ffebee" stroke="#d32f2f" stroke-width="2" rx="5"/>
+    <text x="750" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#d32f2f">ADMINISTRATORS</text>
+    <line x1="660" y1="110" x2="840" y2="110" stroke="#d32f2f" stroke-width="1"/>
+    <text x="660" y="125" font-family="Arial, sans-serif" font-size="12" fill="#333">AdminID (PK)</text>
+    <text x="660" y="140" font-family="Arial, sans-serif" font-size="12" fill="#333">Username</text>
+    <text x="660" y="155" font-family="Arial, sans-serif" font-size="12" fill="#333">PasswordHash</text>
+    <text x="660" y="170" font-family="Arial, sans-serif" font-size="12" fill="#333">Email</text>
+    <text x="660" y="185" font-family="Arial, sans-serif" font-size="12" fill="#333">Role</text>
+    <text x="660" y="200" font-family="Arial, sans-serif" font-size="12" fill="#333">LastLogin</text>
+  </g>
+  
+  <!-- Products Entity -->
+  <g id="products">
+    <rect x="350" y="280" width="200" height="200" fill="#e8f5e8" stroke="#388e3c" stroke-width="2" rx="5"/>
+    <text x="450" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#388e3c">PRODUCTS</text>
+    <line x1="360" y1="310" x2="540" y2="310" stroke="#388e3c" stroke-width="1"/>
+    <text x="360" y="325" font-family="Arial, sans-serif" font-size="12" fill="#333">ProductID (PK)</text>
+    <text x="360" y="340" font-family="Arial, sans-serif" font-size="12" fill="#333">ProductName</text>
+    <text x="360" y="355" font-family="Arial, sans-serif" font-size="12" fill="#333">Description</text>
+    <text x="360" y="370" font-family="Arial, sans-serif" font-size="12" fill="#333">MRP</text>
+    <text x="360" y="385" font-family="Arial, sans-serif" font-size="12" fill="#333">SellingPrice</text>
+    <text x="360" y="400" font-family="Arial, sans-serif" font-size="12" fill="#333">StockQuantity</text>
+    <text x="360" y="415" font-family="Arial, sans-serif" font-size="12" fill="#333">Categories_CategoryID (FK)</text>
+    <text x="360" y="430" font-family="Arial, sans-serif" font-size="12" fill="#333">MainImageURL</text>
+    <text x="360" y="445" font-family="Arial, sans-serif" font-size="12" fill="#333">DateAdded</text>
+    <text x="360" y="460" font-family="Arial, sans-serif" font-size="12" fill="#333">IsActive</text>
+  </g>
+  
+  <!-- Orders Entity -->
+  <g id="orders">
+    <rect x="650" y="320" width="200" height="200" fill="#fff8e1" stroke="#ffa000" stroke-width="2" rx="5"/>
+    <text x="750" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ffa000">ORDERS</text>
+    <line x1="660" y1="350" x2="840" y2="350" stroke="#ffa000" stroke-width="1"/>
+    <text x="660" y="365" font-family="Arial, sans-serif" font-size="12" fill="#333">OrderID (PK)</text>
+    <text x="660" y="380" font-family="Arial, sans-serif" font-size="12" fill="#333">Users_UserID (FK)</text>
+    <text x="660" y="395" font-family="Arial, sans-serif" font-size="12" fill="#333">OrderDate</text>
+    <text x="660" y="410" font-family="Arial, sans-serif" font-size="12" fill="#333">TotalAmount</text>
+    <text x="660" y="425" font-family="Arial, sans-serif" font-size="12" fill="#333">ShippingAddressID</text>
+    <text x="660" y="440" font-family="Arial, sans-serif" font-size="12" fill="#333">OrderStatus</text>
+    <text x="660" y="455" font-family="Arial, sans-serif" font-size="12" fill="#333">PaymentMethod</text>
+    <text x="660" y="470" font-family="Arial, sans-serif" font-size="12" fill="#333">PaymentStatus</text>
+    <text x="660" y="485" font-family="Arial, sans-serif" font-size="12" fill="#333">TrackingNumber</text>
+    <text x="660" y="510" font-family="Arial, sans-serif" font-size="12" fill="#333">OrderItems</text>
+  </g>
+  
+  <!-- Order_Items Entity -->
+  <g id="order_items">
+    <rect x="950" y="350" width="200" height="140" fill="#fce4ec" stroke="#c2185b" stroke-width="2" rx="5"/>
+    <text x="1050" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#c2185b">ORDER_ITEMS</text>
+    <line x1="960" y1="380" x2="1140" y2="380" stroke="#c2185b" stroke-width="1"/>
+    <text x="960" y="395" font-family="Arial, sans-serif" font-size="12" fill="#333">OrderItemID (PK)</text>
+    <text x="960" y="410" font-family="Arial, sans-serif" font-size="12" fill="#333">OrderID (FK)</text>
+    <text x="960" y="425" font-family="Arial, sans-serif" font-size="12" fill="#333">ProductID (FK)</text>
+    <text x="960" y="440" font-family="Arial, sans-serif" font-size="12" fill="#333">Quantity</text>
+    <text x="960" y="455" font-family="Arial, sans-serif" font-size="12" fill="#333">PriceAtPurchase</text>
+    <text x="960" y="470" font-family="Arial, sans-serif" font-size="12" fill="#333">Subtotal</text>
+  </g>
+  
+  <!-- Relationships -->
+  
+  <!-- Users to Addresses (One-to-Many) -->
+  <line x1="150" y1="260" x2="150" y2="320" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="160" y="290" font-family="Arial, sans-serif" font-size="12" fill="#333">1:M</text>
+  <text x="120" y="305" font-family="Arial, sans-serif" font-size="11" fill="#666">has</text>
+  
+  <!-- Users to Orders (One-to-Many) -->
+  <path d="M 250 180 Q 450 180 650 380" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="400" y="270" font-family="Arial, sans-serif" font-size="12" fill="#333">1:M</text>
+  <text x="400" y="285" font-family="Arial, sans-serif" font-size="11" fill="#666">places</text>
+  
+  <!-- Categories to Products (One-to-Many) -->
+  <line x1="450" y1="200" x2="450" y2="280" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="460" y="240" font-family="Arial, sans-serif" font-size="12" fill="#333">1:M</text>
+  <text x="420" y="255" font-family="Arial, sans-serif" font-size="11" fill="#666">contains</text>
+  
+  <!-- Orders to Order_Items (One-to-Many) -->
+  <line x1="850" y1="420" x2="950" y2="420" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="890" y="410" font-family="Arial, sans-serif" font-size="12" fill="#333">1:M</text>
+  <text x="875" y="435" font-family="Arial, sans-serif" font-size="11" fill="#666">contains</text>
+  
+  <!-- Products to Order_Items (One-to-Many) -->
+  <path d="M 550 400 Q 750 400 950 425" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="700" y="390" font-family="Arial, sans-serif" font-size="12" fill="#333">1:M</text>
+  <text x="700" y="415" font-family="Arial, sans-serif" font-size="11" fill="#666">appears in</text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <rect x="50" y="550" width="300" height="120" fill="#ffffff" stroke="#ccc" stroke-width="1" rx="5"/>
+    <text x="60" y="570" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">Legend:</text>
+    <text x="60" y="590" font-family="Arial, sans-serif" font-size="12" fill="#333">PK = Primary Key</text>
+    <text x="60" y="605" font-family="Arial, sans-serif" font-size="12" fill="#333">FK = Foreign Key</text>
+    <text x="60" y="620" font-family="Arial, sans-serif" font-size="12" fill="#333">1:M = One-to-Many Relationship</text>
+    <line x1="60" y1="635" x2="90" y2="635" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="95" y="640" font-family="Arial, sans-serif" font-size="12" fill="#333">= Relationship Direction</text>
+  </g>
+  
+  <!-- Key Relationships Summary -->
+  <g id="relationships_summary">
+    <rect x="400" y="550" width="450" height="180" fill="#f8f9fa" stroke="#ccc" stroke-width="1" rx="5"/>
+    <text x="410" y="570" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">Key Relationships:</text>
+    <text x="410" y="590" font-family="Arial, sans-serif" font-size="12" fill="#333">• One User can have multiple Addresses</text>
+    <text x="410" y="605" font-family="Arial, sans-serif" font-size="12" fill="#333">• One User can place multiple Orders</text>
+    <text x="410" y="620" font-family="Arial, sans-serif" font-size="12" fill="#333">• One Category can contain multiple Products</text>
+    <text x="410" y="635" font-family="Arial, sans-serif" font-size="12" fill="#333">• One Order can have multiple Order_Items</text>
+    <text x="410" y="650" font-family="Arial, sans-serif" font-size="12" fill="#333">• One Product can appear in multiple Order_Items</text>
+    <text x="410" y="665" font-family="Arial, sans-serif" font-size="12" fill="#333">• Each Address belongs to one User</text>
+    <text x="410" y="680" font-family="Arial, sans-serif" font-size="12" fill="#333">• Each Order is placed by one User</text>
+    <text x="410" y="695" font-family="Arial, sans-serif" font-size="12" fill="#333">• Each Product belongs to one Category</text>
+    <text x="410" y="710" font-family="Arial, sans-serif" font-size="12" fill="#333">• Each Order_Item belongs to one Order and one Product</text>
+  </g>
+  
+</svg>
