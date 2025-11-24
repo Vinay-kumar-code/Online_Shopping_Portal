@@ -35,7 +35,13 @@ $grand_total = 0;
                     
                     if ($stmt_info) {
                         $types = str_repeat('i', count($product_ids));
-                        mysqli_stmt_bind_param($stmt_info, $types, ...$product_ids);
+                        // Use call_user_func_array for PHP 5.5 compatibility
+                        $bind_params = array_merge(array($stmt_info, $types), $product_ids);
+                        $refs = array();
+                        foreach ($bind_params as $key => $value) {
+                            $refs[$key] = &$bind_params[$key];
+                        }
+                        call_user_func_array('mysqli_stmt_bind_param', $refs);
                         mysqli_stmt_execute($stmt_info);
                         $info_result = mysqli_stmt_get_result($stmt_info);
                         

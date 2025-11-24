@@ -21,7 +21,7 @@ require_once 'config.php';
                     <li><a href="<?php echo BASE_URL; ?>cart.php">Cart
                         <?php
                         // Use cached cart count if available, otherwise calculate and cache it
-                        if (!isset($_SESSION['cart_count']) || !isset($_SESSION['cart_modified_time'])) {
+                        if (!isset($_SESSION['cart_count'])) {
                             $cart_item_count = 0;
                             if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                                 foreach ($_SESSION['cart'] as $item) {
@@ -29,7 +29,6 @@ require_once 'config.php';
                                 }
                             }
                             $_SESSION['cart_count'] = $cart_item_count;
-                            $_SESSION['cart_modified_time'] = time();
                         } else {
                             $cart_item_count = $_SESSION['cart_count'];
                         }

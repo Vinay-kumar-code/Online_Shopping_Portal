@@ -112,8 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['place_order'])) {
             $sql_insert_order_item = "INSERT INTO order_items (OrderID, ProductID, Quantity, PriceAtPurchase, Subtotal) VALUES (?, ?, ?, ?, ?)";
             $stmt_insert_order_item = mysqli_prepare($conn, $sql_insert_order_item);
 
-            // Prepare stock update statement
-            $sql_update_stock = "UPDATE products SET StockQuantity = StockQuantity - ? WHERE ProductID = ?";
+            // Prepare stock update statement with safety check to prevent negative stock
+            $sql_update_stock = "UPDATE products SET StockQuantity = StockQuantity - ? WHERE ProductID = ? AND StockQuantity >= ?";
             $stmt_update_stock = mysqli_prepare($conn, $sql_update_stock);
 
             foreach ($cart_items as $product_id_cart => $item_cart) {
@@ -123,10 +123,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['place_order'])) {
                      throw new Exception("Failed to save order items. DB Error: " . mysqli_stmt_error($stmt_insert_order_item));
                 }
 
-                // Update stock directly without redundant SELECT query
-                mysqli_stmt_bind_param($stmt_update_stock, "ii", $item_cart['quantity'], $item_cart['product_id']);
+                // Update stock directly with safety check to prevent negative quantities
+                mysqli_stmt_bind_param($stmt_update_stock, "iii", $item_cart['quantity'], $item_cart['product_id'], $item_cart['quantity']);
                 if (!mysqli_stmt_execute($stmt_update_stock)) {
                     throw new Exception("Failed to update stock for product ID " . $item_cart['product_id'] . ". DB Error: " . mysqli_stmt_error($stmt_update_stock));
+                }
+                // Check if stock was actually updated (affected_rows > 0 means stock was sufficient)
+                if (mysqli_stmt_affected_rows($stmt_update_stock) === 0) {
+                    throw new Exception("Insufficient stock for product ID " . $item_cart['product_id'] . " due to concurrent order.");
                 }
             }
             mysqli_stmt_close($stmt_update_stock);
