@@ -112,6 +112,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['place_order'])) {
             $sql_insert_order_item = "INSERT INTO order_items (OrderID, ProductID, Quantity, PriceAtPurchase, Subtotal) VALUES (?, ?, ?, ?, ?)";
             $stmt_insert_order_item = mysqli_prepare($conn, $sql_insert_order_item);
 
+            // Prepare stock update statement with safety check to prevent negative stock
+            $sql_update_stock = "UPDATE products SET StockQuantity = StockQuantity - ? WHERE ProductID = ? AND StockQuantity >= ?";
+            $stmt_update_stock = mysqli_prepare($conn, $sql_update_stock);
+
             foreach ($cart_items as $product_id_cart => $item_cart) {
                 $subtotal_item = $item_cart['price'] * $item_cart['quantity'];
                 mysqli_stmt_bind_param($stmt_insert_order_item, "iiidd", $order_id, $item_cart['product_id'], $item_cart['quantity'], $item_cart['price'], $subtotal_item);
@@ -119,30 +123,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['place_order'])) {
                      throw new Exception("Failed to save order items. DB Error: " . mysqli_stmt_error($stmt_insert_order_item));
                 }
 
-                $new_stock = $product_db['StockQuantity'] - $item_cart['quantity']; 
-                $sql_current_stock = "SELECT StockQuantity FROM products WHERE ProductID = ?";
-                $stmt_current_stock = mysqli_prepare($conn, $sql_current_stock);
-                mysqli_stmt_bind_param($stmt_current_stock, "i", $item_cart['product_id']);
-                mysqli_stmt_execute($stmt_current_stock);
-                $res_current_stock = mysqli_stmt_get_result($stmt_current_stock);
-                $prod_current_stock_data = mysqli_fetch_assoc($res_current_stock);
-                mysqli_stmt_close($stmt_current_stock);
-                $current_item_stock = $prod_current_stock_data['StockQuantity'];
-                $new_stock_for_item = $current_item_stock - $item_cart['quantity'];
-
-                $sql_update_stock = "UPDATE products SET StockQuantity = ? WHERE ProductID = ?";
-                $stmt_update_stock = mysqli_prepare($conn, $sql_update_stock);
-                mysqli_stmt_bind_param($stmt_update_stock, "ii", $new_stock_for_item, $item_cart['product_id']);
-                 if (!mysqli_stmt_execute($stmt_update_stock)) {
+                // Update stock directly with safety check to prevent negative quantities
+                mysqli_stmt_bind_param($stmt_update_stock, "iii", $item_cart['quantity'], $item_cart['product_id'], $item_cart['quantity']);
+                if (!mysqli_stmt_execute($stmt_update_stock)) {
                     throw new Exception("Failed to update stock for product ID " . $item_cart['product_id'] . ". DB Error: " . mysqli_stmt_error($stmt_update_stock));
                 }
-                mysqli_stmt_close($stmt_update_stock);
+                // Check if stock was actually updated (affected_rows > 0 means stock was sufficient)
+                if (mysqli_stmt_affected_rows($stmt_update_stock) === 0) {
+                    throw new Exception("Insufficient stock for product ID " . $item_cart['product_id'] . " due to concurrent order.");
+                }
             }
+            mysqli_stmt_close($stmt_update_stock);
             mysqli_stmt_close($stmt_insert_order_item);
 
             mysqli_commit($conn);
 
             $_SESSION['cart'] = array();
+            unset($_SESSION['cart_count']); // Invalidate cart count cache
 
             $_SESSION['last_order_id'] = $order_id;
             display_message("Order placed successfully! Your Order ID is #" . $order_id, "success");
