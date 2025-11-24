@@ -20,12 +20,20 @@ require_once 'config.php';
                     <li><a href="<?php echo BASE_URL; ?>products.php">Products</a></li>
                     <li><a href="<?php echo BASE_URL; ?>cart.php">Cart
                         <?php
-                        $cart_item_count = 0;
-                        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-                            foreach ($_SESSION['cart'] as $item) {
-                                $cart_item_count += $item['quantity'];
+                        // Use cached cart count if available, otherwise calculate and cache it
+                        if (!isset($_SESSION['cart_count']) || !isset($_SESSION['cart_modified_time'])) {
+                            $cart_item_count = 0;
+                            if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+                                foreach ($_SESSION['cart'] as $item) {
+                                    $cart_item_count += $item['quantity'];
+                                }
                             }
+                            $_SESSION['cart_count'] = $cart_item_count;
+                            $_SESSION['cart_modified_time'] = time();
+                        } else {
+                            $cart_item_count = $_SESSION['cart_count'];
                         }
+                        
                         if ($cart_item_count > 0) {
                             echo " <span class='cart-count'>($cart_item_count)</span>";
                         }

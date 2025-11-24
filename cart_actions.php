@@ -37,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         redirect('cart.php');
                     }
                     $_SESSION['cart'][$product_id]['quantity'] = $new_quantity;
+                    unset($_SESSION['cart_count']); // Invalidate cart count cache
                     display_message(htmlspecialchars($product['ProductName']) . " quantity updated in cart.", "success");
                 } else {
                      if ($product['StockQuantity'] < $quantity) {
@@ -50,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         'quantity' => $quantity,
                         'image' => ''
                     );
+                    unset($_SESSION['cart_count']); // Invalidate cart count cache
                     display_message(htmlspecialchars($product['ProductName']) . " added to cart.", "success");
                 }
             } else {
@@ -79,10 +81,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     display_message("Not enough stock for " . htmlspecialchars($product_stock_info['ProductName']) . ". Only " . $product_stock_info['StockQuantity'] . " available.", "error");
                 } else {
                     $_SESSION['cart'][$product_id]['quantity'] = $quantity;
+                    unset($_SESSION['cart_count']); // Invalidate cart count cache
                     display_message("Cart updated.", "success");
                 }
             } else {
                 unset($_SESSION['cart'][$product_id]);
+                unset($_SESSION['cart_count']); // Invalidate cart count cache
                 display_message("Item removed from cart.", "success");
             }
         }
@@ -93,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $product_id = (int)$_POST['product_id'];
         if (isset($_SESSION['cart'][$product_id])) {
             unset($_SESSION['cart'][$product_id]);
+            unset($_SESSION['cart_count']); // Invalidate cart count cache
             display_message("Item removed from cart.", "success");
         }
         redirect('cart.php');
@@ -100,6 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     elseif (isset($_POST['clear_cart'])) {
         $_SESSION['cart'] = array();
+        unset($_SESSION['cart_count']); // Invalidate cart count cache
         display_message("Cart has been cleared.", "success");
         redirect('cart.php');
     }

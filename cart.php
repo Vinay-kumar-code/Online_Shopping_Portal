@@ -23,20 +23,36 @@ $grand_total = 0;
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cart_items as $item):
-                    $product_info_sql = "SELECT MainImageURL, StockQuantity FROM products WHERE ProductID = ?";
+                <?php 
+                // Fetch all product info in a single query to avoid N+1 problem
+                $product_ids = array_keys($cart_items);
+                $product_info_map = array();
+                
+                if (!empty($product_ids)) {
+                    $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
+                    $product_info_sql = "SELECT ProductID, MainImageURL, StockQuantity FROM products WHERE ProductID IN ($placeholders)";
                     $stmt_info = mysqli_prepare($conn, $product_info_sql);
-                    $product_image_url = 'default_product.png';
-                    $current_stock = 0;
+                    
                     if ($stmt_info) {
-                        mysqli_stmt_bind_param($stmt_info, "i", $item['product_id']);
+                        $types = str_repeat('i', count($product_ids));
+                        mysqli_stmt_bind_param($stmt_info, $types, ...$product_ids);
                         mysqli_stmt_execute($stmt_info);
                         $info_result = mysqli_stmt_get_result($stmt_info);
-                        if ($prod_info = mysqli_fetch_assoc($info_result)) {
-                            $product_image_url = $prod_info['MainImageURL'];
-                            $current_stock = $prod_info['StockQuantity'];
+                        
+                        while ($prod_info = mysqli_fetch_assoc($info_result)) {
+                            $product_info_map[$prod_info['ProductID']] = $prod_info;
                         }
                         mysqli_stmt_close($stmt_info);
+                    }
+                }
+                
+                foreach ($cart_items as $item):
+                    $product_image_url = 'default_product.png';
+                    $current_stock = 0;
+                    
+                    if (isset($product_info_map[$item['product_id']])) {
+                        $product_image_url = $product_info_map[$item['product_id']]['MainImageURL'];
+                        $current_stock = $product_info_map[$item['product_id']]['StockQuantity'];
                     }
 
                     $subtotal = $item['price'] * $item['quantity'];
